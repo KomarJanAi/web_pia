@@ -21,7 +21,7 @@ nav a{color:var(--gold2);text-decoration:none;font-size:11px;letter-spacing:.26e
 nav .logo{font-family:'Cormorant Garamond',serif;font-size:26px;letter-spacing:.3em;text-transform:none}
 .progress{position:fixed;top:0;left:0;height:2px;width:100%;transform-origin:0 50%;transform:scaleX(0);background:linear-gradient(90deg,var(--gold),var(--pink));z-index:30}
 /* stage: sticky pizza + scrolling text */
-.stage{position:relative;z-index:1;height:520vh}
+.stage{position:relative;z-index:1;height:1100vh}
 .sticky{position:sticky;top:0;height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:0 clamp(20px,6vw,100px);gap:2vw;overflow:hidden}
 .copy{position:relative;height:60vh;perspective:900px}
 .slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;opacity:0;transform:translateY(40px);filter:blur(8px);transition:opacity .8s,transform .9s cubic-bezier(.2,.8,.2,1),filter .8s;pointer-events:none}
@@ -101,25 +101,35 @@ footer h2{font-size:clamp(40px,5vw,80px);margin-top:0}
  <div class="eyebrow" style="justify-content:center">Neapolská pizza a calzone · 32 cm</div>
  <h2>Kompletní <span class="gold">nabídka</span></h2>
  <div class="list" id="list"></div>
- <p class="note">Ukázkové složení – texty a ceny uprav v poli <code>MENU</code> na začátku skriptu.</p>
+ <p class="note">Alergeny: 1, 7 (u Napoletany též 4, u Stagionale též 8). Pečeno v peci na bukovém dříví, italská mouka, extra panenský olivový olej a himálajská sůl.</p>
 </section>
 
 <footer>
- <div class="eyebrow" style="justify-content:center">La Dolce Vita</div>
+ <div class="eyebrow" style="justify-content:center">Kavárna Piazza · náměstí Míru, Bruntál</div>
  <h2>Pizza z pece, <span class="gold">ne z fabriky</span></h2>
- <a class="btn" href="/">Zpět na web</a>
+ <p class="lead" style="margin:0 auto 26px">So 16:00 – 20:00 · předobjednávky na telefonu nebo e-mailem</p>
+ <a class="btn" href="tel:+420774499493">+420 774 499 493</a> <a class="btn" href="mailto:objednavka@pizza-oborna.cz">Objednat e-mailem</a> <a class="btn" href="/">Zpět na web</a>
 </footer>
 
 <script>
-/* ===== DATA – uprav podle skutečného jídelníčku (ceny doplň do pole price) ===== */
+/* ===== DATA – nabídka z La Dolce Vita (Neapolská pizza 32 cm) ===== */
 const MENU=[
- {name:'Margherita',sub:'Klasika z Neapole',desc:'Rajčatový základ San Marzano, fior di latte, čerstvá bazalka, olivový olej.',top:['basil','mozz'],price:''},
- {name:'Marinara',sub:'Nejstarší z neapolských',desc:'Rajčata, česnek, oregano, extra panenský olivový olej.',top:['garlic','oregano'],price:''},
- {name:'Diavola',sub:'Pro odvážné',desc:'Rajčata, fior di latte, pikantní salám, chilli, bazalka.',top:['salami','chili','mozz','basil'],price:''},
- {name:'Prosciutto e Funghi',sub:'Šunka & houby',desc:'Fior di latte, vařená šunka, žampiony, oregano.',top:['ham','mush','mozz'],price:''},
- {name:'Prosciutto Crudo e Rucola',sub:'Čerstvá a lehká',desc:'Fior di latte, sušená šunka, rukola, hobliny parmazánu, cherry rajčata.',top:['crudo','rocket','tomato','parm','mozz'],price:''},
- {name:'Quattro Formaggi',sub:'Čtyři sýry',desc:'Fior di latte, gorgonzola, parmazán, pecorino, olivový olej.',top:['gorg','parm','mozz'],price:''},
- {name:'Calzone',sub:'Přeložená, plněná',desc:'Ricotta, vařená šunka, fior di latte, rajčatová omáčka, pepř.',calzone:true,top:[],price:''}
+ {no:1,name:'Margherita',sub:'Klasika z Neapole',desc:'Drcená rajčata San Marzano, mozzarela, bazalka, olivový olej.',top:['basil','mozz'],price:'200 Kč'},
+ {no:3,name:'Diavola',sub:'Pro odvážné',desc:'Drcená rajčata San Marzano, mozzarela, italský pikantní salám Spianata Picante, pálivá paprička jalapeño, Grana Padano, bazalka, olivový olej.',top:['salami','jalapeno','mozz','parm','basil'],price:'260 Kč'},
+ {no:4,name:'Caprese',sub:'Čerstvá a lehká',desc:'Drcená rajčata San Marzano, mozzarela, bazalkové pesto, Grana Padano, rukola, cherry rajčata, olivový olej.',top:['pesto','rocket','tomato','parm','mozz'],price:'240 Kč'},
+ {no:5,name:'Messina',sub:'Smetanový základ',desc:'Smetanový základ, mozzarela, španělský salám chorizo, červená cibule, Grana Padano, bazalka, olivový olej.',cream:1,top:['chorizo','onion','parm','mozz','basil'],price:'270 Kč'},
+ {no:6,name:'Capricciosa',sub:'Šunka, houby, olivy',desc:'Drcená rajčata San Marzano, mozzarela, italská dušená šunka Castelo Silver, žampiony, olivy, Grana Padano, bazalka, olivový olej.',top:['ham','mush','olive','parm','mozz','basil'],price:'270 Kč'},
+ {no:7,name:'Salsiccia con Funghi',sub:'Klobása & gorgonzola',desc:'Smetanový základ, mozzarela, italská pikantní klobása, žampiony, gorgonzola, Grana Padano, chilli, bazalka, olivový olej.',cream:1,top:['sausage','mush','gorg','parm','chili','mozz','basil'],price:'280 Kč'},
+ {no:8,name:'Quattro Formaggi',sub:'Čtyři sýry',desc:'Mozzarela, gorgonzola, italský sýr Provolone Dolce, Grana Padano, bazalka, olivový olej.',cream:1,top:['gorg','parm','mozz','basil'],price:'270 Kč'},
+ {no:9,name:'Crudo di Parma',sub:'Schwarzwaldská šunka',desc:'Drcená rajčata San Marzano, mozzarela, schwarzwaldská šunka, rukola, Grana Padano, cherry rajčata, olivový olej.',top:['crudo','rocket','tomato','parm','mozz'],price:'290 Kč'},
+ {no:11,name:'Pizza s tvarůžkama',sub:'Moravská klasika',desc:'Smetanový základ, gouda, tvarůžky, červená cibule, anglická slanina, bazalka, olivový olej.',cream:1,top:['tvaruzek','onion','bacon','mozz','basil'],price:'210 Kč'},
+ {no:12,name:'Pizza se šunkou',sub:'Jednoduše dobrá',desc:'Drcená rajčata San Marzano, gouda, šunka, kukuřice, bazalka, olivový olej.',top:['ham','corn','mozz','basil'],price:'210 Kč'},
+ {no:13,name:'Pizza se slaninou',sub:'Slanina & cibule',desc:'Smetanový základ, gouda, anglická slanina, červená cibule, bazalka, olivový olej.',cream:1,top:['bacon','onion','mozz','basil'],price:'210 Kč'},
+ {no:14,name:'Calzone',sub:'Přeložená, plněná · Novinka',desc:'Plněná smetanovým základem, mozzarellou, sušenými rajčaty, špenátem, čerstvými žampiony a kuřecím masem. Vrch potřený česnekovým olivovým olejem.',calzone:true,top:[],price:'320 Kč'},
+ {no:16,name:'Stagionale',sub:'Sladkoslaná · Novinka',desc:'Smetanový základ, mozzarella, tyrolský špek, mascarpone, vlašské ořechy, meruňkový džem.',cream:1,top:['bacon','walnut','jam','mozz'],price:'290 Kč'},
+ {no:17,name:'Napoletana',sub:'Ančovičky & kapary · Novinka',desc:'Drcená rajčata San Marzano, mozzarela fior di latte, ančovičky, kapary, čerstvá bazalka, extra panenský olivový olej.',top:['anchovy','caper','mozz','basil'],price:'280 Kč'},
+ {no:18,name:'Tropea ´Nduja',sub:'Kalábrijská pálivost · Novinka',desc:'Drcená rajčata San Marzano, mozzarela fior di latte, pikantní kalábrijská salámová pasta ´nduja, čerstvá bazalka, extra panenský olivový olej.',top:['nduja','mozz','basil'],price:'260 Kč'},
+ {no:19,name:'Burrata',sub:'Novinka',desc:'Drcená rajčata San Marzano, mozzarela, rukola, sušená šunka prosciutto crudo, burrata, Grana Padano, lanýžový extra panenský olivový olej.',top:['crudo','rocket','burrata','parm','mozz'],price:'320 Kč'}
 ];
 
 /* ===== seeded random ===== */
@@ -158,6 +168,22 @@ function addTop(p,type,x,y){
  case 'parm':{const g=el('g',{},p);el('path',{d:`M${x-14} ${y}L${x+4} ${y-14}L${x+18} ${y+4}L${x-2} ${y+14}Z`,fill:'#f7e7a6',stroke:'#e1c971','stroke-width':1.2,transform:`rotate(${r} ${x} ${y})`},g);return g}
  case 'gorg':{const g=el('g',{},p);el('circle',{cx:x,cy:y,r:R(15,20),fill:'#f3ecd0'},g);for(let i=0;i<5;i++)el('circle',{cx:x+R(-9,9),cy:y+R(-9,9),r:R(1.5,3),fill:'#4d6f8b'},g);return g}
  case 'garlic':{const g=el('g',{transform:`translate(${x} ${y}) rotate(${r})`},p);el('ellipse',{rx:9,ry:4,fill:'#fff3cf',stroke:'#e2cf8e'},g);return g}
+
+ case 'jalapeno':{const g=el('g',{},p);el('circle',{cx:x,cy:y,r:9,fill:'#7fb23a',stroke:'#4f7d1f','stroke-width':2},g);el('circle',{cx:x,cy:y,r:3,fill:'#d9ecb0'},g);return g}
+ case 'pesto':{const g=el('g',{},p);for(let i=0;i<4;i++)el('circle',{cx:x+R(-10,10),cy:y+R(-10,10),r:R(4,9),fill:'#5f8f2c',opacity:.85},g);return g}
+ case 'chorizo':{const g=el('g',{},p);el('circle',{cx:x,cy:y,r:R(17,21),fill:'#b8321a'},g);for(let i=0;i<5;i++)el('circle',{cx:x+R(-10,10),cy:y+R(-10,10),r:R(1.5,3),fill:'#f0a07a',opacity:.8},g);el('circle',{cx:x,cy:y,r:19,fill:'none',stroke:'#7a1a0c','stroke-width':1.5},g);return g}
+ case 'onion':{const g=el('g',{transform:`translate(${x} ${y}) rotate(${r})`},p);el('path',{d:'M-16 0A16 10 0 0 1 16 0',fill:'none',stroke:'#b0457a','stroke-width':3.5,'stroke-linecap':'round'},g);return g}
+ case 'olive':{const g=el('g',{},p);el('circle',{cx:x,cy:y,r:9,fill:'#2b2f1d'},g);el('circle',{cx:x,cy:y,r:3.5,fill:'#d0a258'},g);return g}
+ case 'sausage':{const g=el('g',{},p);el('circle',{cx:x,cy:y,r:R(13,17),fill:'#9a3b22',stroke:'#6b2214','stroke-width':1.5},g);el('circle',{cx:x-3,cy:y-3,r:3,fill:'#d98c6a',opacity:.7},g);return g}
+ case 'tvaruzek':{const g=el('g',{},p);el('ellipse',{cx:x,cy:y,rx:12,ry:9,fill:'#e8cf86',stroke:'#b99a45','stroke-width':1.5,transform:`rotate(${r} ${x} ${y})`},g);return g}
+ case 'bacon':{const g=el('g',{transform:`translate(${x} ${y}) rotate(${r})`},p);el('rect',{x:-20,y:-6,width:40,height:12,rx:3,fill:'#d95d4c'},g);el('rect',{x:-20,y:-1,width:40,height:4,fill:'#f4cfc0'},g);return g}
+ case 'corn':{const g=el('g',{},p);for(let i=0;i<3;i++)el('circle',{cx:x+R(-8,8),cy:y+R(-8,8),r:4,fill:'#f2c61f'},g);return g}
+ case 'walnut':{const g=el('g',{transform:`translate(${x} ${y}) rotate(${r})`},p);el('path',{d:'M-11 0Q-12 -12 0 -11Q12 -12 11 0Q12 12 0 11Q-12 12 -11 0Z',fill:'#b98a55',stroke:'#7d5528','stroke-width':1.5},g);return g}
+ case 'jam':{const g=el('g',{},p);for(let i=0;i<3;i++)el('circle',{cx:x+R(-10,10),cy:y+R(-10,10),r:R(5,9),fill:'#f08a1c',opacity:.85},g);return g}
+ case 'anchovy':{const g=el('g',{transform:`translate(${x} ${y}) rotate(${r})`},p);el('path',{d:'M-20 0Q0 -9 20 0Q0 7 -20 0Z',fill:'#8a5a45',stroke:'#5b3626'},g);return g}
+ case 'caper':{const g=el('g',{},p);el('circle',{cx:x,cy:y,r:5,fill:'#5d7d33'},g);return g}
+ case 'nduja':{const g=el('g',{},p);for(let i=0;i<4;i++)el('circle',{cx:x+R(-12,12),cy:y+R(-12,12),r:R(5,10),fill:'#c8281a',opacity:.9},g);return g}
+ case 'burrata':{const g=el('g',{},p);el('circle',{cx:x,cy:y,r:46,fill:'url(#cheese)',stroke:'#fffaf0','stroke-width':3},g);el('circle',{cx:x-12,cy:y-14,r:14,fill:'#fff',opacity:.45},g);return g}
  case 'oregano':{const g=el('g',{},p);for(let i=0;i<7;i++)el('circle',{cx:x+R(-14,14),cy:y+R(-14,14),r:1.6,fill:'#5d7a2f'},g);return g}
  }}
 
@@ -189,8 +215,8 @@ function build(item,animate){
   el('circle',{cx:300,cy:300,r:222,fill:'#8c5018',opacity:.4},gc);
   layer(gc,0,'scale');
   const gs=el('g',{},root);
-  el('circle',{cx:300,cy:300,r:216,fill:'url(#sauce)'},gs);
-  for(let i=0;i<26;i++)el('circle',{cx:300+R(-190,190),cy:300+R(-190,190),r:R(8,30),fill:'#ff5a3a',opacity:.12},gs);
+  el('circle',{cx:300,cy:300,r:216,fill:item.cream?'#f3e3bd':'url(#sauce)'},gs);
+  for(let i=0;i<26;i++)el('circle',{cx:300+R(-190,190),cy:300+R(-190,190),r:R(8,30),fill:item.cream?'#fff6dc':'#ff5a3a',opacity:.12},gs);
   layer(gs,.15,'scale');
   // cheese base
   const gch=el('g',{},root);
@@ -201,10 +227,10 @@ function build(item,animate){
   layer(gch,.3,'scale');
   // toppings
   const base=item.top.filter(t=>t!=='mozz');
-  const counts={basil:7,salami:12,chili:14,ham:8,crudo:7,mush:9,rocket:16,tomato:9,parm:10,gorg:9,garlic:24,oregano:28};
+  const counts={basil:7,salami:12,chili:14,ham:8,crudo:7,mush:9,rocket:16,tomato:9,parm:10,gorg:9,garlic:24,oregano:28,jalapeno:9,pesto:6,chorizo:10,onion:16,olive:9,sausage:12,tvaruzek:9,bacon:8,corn:14,walnut:8,jam:6,anchovy:8,caper:14,nduja:8,burrata:1};
   let k=0;
   base.forEach(t=>{const n=counts[t]||8;for(let i=0;i<n;i++){
-    const a=R(0,6.28),rr=Math.sqrt(rnd())*178;
+    const a=R(0,6.28),rr=t==='burrata'?0:Math.sqrt(rnd())*178;
     const g=el('g',{},root);addTop(g,t,300+Math.cos(a)*rr,300+Math.sin(a)*rr);
     layer(g,.5+k*.025,'drop');k++}});
  }
@@ -225,14 +251,14 @@ const slides=[{intro:true},...MENU];
 slides.forEach((m,i)=>{
  const s=document.createElement('div');s.className='slide';
  if(m.intro){
-  s.innerHTML=`<div class="eyebrow">Pia · Pizzeria napoletana</div>
+  s.innerHTML=`<div class="eyebrow">La Dolce Vita · Bruntál</div>
   <h1>Neapolská<br><span class="gold">pizza</span><br>32&nbsp;cm</h1>
-  <p class="lead">Těsto kynuté dlouho a pomalu, pec rozpálená na 450&nbsp;°C a jen pár poctivých surovin. Procházej ukázkovou nabídkou – pizza se pod rukama proměňuje.</p>
-  <div class="tag"><span>Ruční těsto</span><span>Kamenná pec</span><span>Čerstvé suroviny</span></div>`;
+  <p class="lead">Pečená v peci na bukovém dříví, z italské mouky, extra panenského olivového oleje a himálajské soli. Posouvej dolů a prohlédni si všechny naše pizzy.</p>
+  <div class="tag"><span>Pec na bukové dříví</span><span>Italská mouka</span><span>Bruntál</span></div>`;
  }else{
   s.innerHTML=`<div class="eyebrow">${m.sub}</div><h2>${m.name.replace(/(\S+)$/,'<span class="gold">$1</span>')}</h2><p class="lead">${m.desc}</p>${m.price?`<div class="tag"><span>${m.price}</span></div>`:''}`;
   const r=document.createElement('div');r.className='row';
-  r.innerHTML=`<span class="n">${String(i).padStart(2,'0')}</span><div><h3>${m.name}</h3><p>${m.desc}</p></div><span class="w">${m.price||'32 cm'}</span>`;
+  r.innerHTML=`<span class="n">${String(m.no).padStart(2,'0')}</span><div><h3>${m.name}</h3><p>${m.desc}</p></div><span class="w">${m.price}</span>`;
   r.onclick=()=>goTo(i);list.appendChild(r);
  }
  copy.appendChild(s);
