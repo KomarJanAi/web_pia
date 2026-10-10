@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Neapolská pizza 32 cm · Pia</title>
+<meta name="description" content="Neapolská pizza a calzone 32 cm – animovaná prezentace.">
+<style>
+@font-face{font-family:'Cormorant Garamond';font-weight:400;font-display:swap;src:url(/fonts/CormorantGaramond-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+2000-206F,U+20AC}
+@font-face{font-family:'Cormorant Garamond';font-weight:400;font-display:swap;src:url(/fonts/CormorantGaramond-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA,U+1E00-1EFF}
+@font-face{font-family:'DM Sans';font-weight:400 700;font-display:swap;src:url(/fonts/DMSans-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+2000-206F,U+20AC}
+@font-face{font-family:'DM Sans';font-weight:400 700;font-display:swap;src:url(/fonts/DMSans-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA,U+1E00-1EFF}
+:root{--bg:#1a0a0d;--wine:#46171f;--pink:#efcbcb;--cream:#f4efe8;--gold:#c9a96e;--gold2:#e8d3a0}
+*{box-sizing:border-box;margin:0}
+html{background:var(--bg)}
+body{background:radial-gradient(1200px 800px at 70% 20%,#3a1119 0,var(--bg) 70%) fixed;color:var(--cream);font-family:'DM Sans',Arial,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.serif{font-family:'Cormorant Garamond',Georgia,serif;font-weight:400}
+#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+nav{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;justify-content:space-between;align-items:center;padding:22px clamp(20px,5vw,64px);mix-blend-mode:normal}
+nav a{color:var(--gold2);text-decoration:none;font-size:11px;letter-spacing:.26em;text-transform:uppercase;font-weight:700}
+nav .logo{font-family:'Cormorant Garamond',serif;font-size:26px;letter-spacing:.3em;text-transform:none}
+.progress{position:fixed;top:0;left:0;height:2px;width:100%;transform-origin:0 50%;transform:scaleX(0);background:linear-gradient(90deg,var(--gold),var(--pink));z-index:30}
+/* stage: sticky pizza + scrolling text */
+.stage{position:relative;z-index:1;height:520vh}
+.sticky{position:sticky;top:0;height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:0 clamp(20px,6vw,100px);gap:2vw;overflow:hidden}
+.copy{position:relative;height:60vh;perspective:900px}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;opacity:0;transform:translateY(40px);filter:blur(8px);transition:opacity .8s,transform .9s cubic-bezier(.2,.8,.2,1),filter .8s;pointer-events:none}
+.slide.on{opacity:1;transform:none;filter:none;pointer-events:auto}
+.eyebrow{font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);font-weight:700;display:flex;align-items:center;gap:14px}
+.eyebrow:before{content:"";width:40px;height:1px;background:var(--gold)}
+h1,h2{font-family:'Cormorant Garamond',Georgia,serif;font-weight:400;line-height:.95;letter-spacing:-.03em;margin:26px 0 22px}
+h1{font-size:clamp(56px,8vw,138px)}
+h2{font-size:clamp(46px,6vw,100px)}
+.gold{background:linear-gradient(100deg,var(--gold) 0,var(--gold2) 40%,var(--gold) 55%,#8f7442 100%);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 6s linear infinite}
+@keyframes shine{to{background-position:-200% 0}}
+.lead{max-width:30em;color:#d8bcb8;line-height:1.7;font-size:clamp(15px,1.25vw,19px)}
+.tag{margin-top:26px;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold2)}
+.tag span{display:inline-block;border:1px solid rgba(201,169,110,.45);padding:8px 14px;margin:0 8px 8px 0;border-radius:99px}
+.scrollhint{position:absolute;bottom:34px;left:50%;translate:-50% 0;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);display:flex;flex-direction:column;align-items:center;gap:10px;transition:opacity .5s}
+.scrollhint i{width:1px;height:46px;background:linear-gradient(var(--gold),transparent);animation:drip 2s infinite}
+@keyframes drip{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+.plate{position:relative;width:min(46vw,76vh);aspect-ratio:1;justify-self:center;will-change:transform}
+.plate .glow{position:absolute;inset:-12%;border-radius:50%;background:radial-gradient(circle,rgba(201,169,110,.28),transparent 62%);filter:blur(10px)}
+.plate svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;filter:drop-shadow(0 40px 50px rgba(0,0,0,.6))}
+#spin{transform-origin:300px 300px;will-change:transform}
+.counter{position:absolute;right:clamp(20px,4vw,60px);bottom:34px;font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold)}
+.counter b{font-weight:400;font-size:46px;color:var(--cream)}
+.dots{position:absolute;left:clamp(14px,2vw,30px);top:50%;translate:0 -50%;display:flex;flex-direction:column;gap:12px}
+.dots button{width:7px;height:7px;border-radius:50%;border:1px solid var(--gold);background:none;padding:0;cursor:pointer;transition:.4s}
+.dots button.on{background:var(--gold);transform:scale(1.5)}
+/* menu */
+.menu{position:relative;z-index:1;padding:14vh clamp(20px,6vw,100px) 10vh}
+.menu h2{text-align:center;margin-bottom:8vh}
+.list{max-width:1100px;margin:auto;border-top:1px solid rgba(201,169,110,.3)}
+.row{display:grid;grid-template-columns:70px 1fr auto;gap:clamp(12px,3vw,40px);align-items:baseline;padding:34px 0;border-bottom:1px solid rgba(201,169,110,.3);position:relative;overflow:hidden;opacity:0;transform:translateY(50px);transition:opacity .9s,transform 1s cubic-bezier(.2,.8,.2,1),padding .5s}
+.row.in{opacity:1;transform:none}
+.row:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(201,169,110,.14),transparent);transform:scaleX(0);transform-origin:left;transition:transform .7s cubic-bezier(.2,.8,.2,1)}
+.row:hover:before{transform:scaleX(1)}.row:hover{padding-left:18px}
+.row>*{position:relative}
+.row .n{font-family:'Cormorant Garamond',serif;color:var(--gold);font-size:30px}
+.row h3{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:clamp(30px,3.6vw,52px);letter-spacing:-.02em}
+.row p{color:#c9aaa6;margin-top:8px;font-size:15px;line-height:1.55;max-width:38em}
+.row .w{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold2)}
+.note{max-width:1100px;margin:36px auto 0;font-size:12px;color:#8e716f;letter-spacing:.04em}
+footer{position:relative;z-index:1;text-align:center;padding:12vh 20px 14vh;border-top:1px solid rgba(201,169,110,.2)}
+footer h2{font-size:clamp(40px,5vw,80px);margin-top:0}
+.btn{display:inline-block;margin-top:14px;padding:18px 34px;border:1px solid var(--gold);color:var(--gold2);text-decoration:none;font-size:12px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;position:relative;overflow:hidden;transition:color .4s}
+.btn:before{content:"";position:absolute;inset:0;background:var(--gold);transform:translateY(101%);transition:transform .5s cubic-bezier(.2,.8,.2,1);z-index:-1}
+.btn:hover{color:var(--bg)}.btn:hover:before{transform:none}
+.btn{isolation:isolate}
+@media(max-width:820px){
+ .sticky{grid-template-columns:1fr;grid-template-rows:44vh 1fr;align-content:start;padding-top:70px}
+ .plate{width:min(78vw,40vh)}
+ .copy{height:auto;min-height:40vh;align-self:start}
+ .slide{justify-content:flex-start}
+ .dots,.counter{display:none}
+ .row{grid-template-columns:44px 1fr}.row .w{grid-column:2}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="progress" id="bar"></div>
+<canvas id="fx"></canvas>
+<nav><a class="logo" href="/">Pia</a><a href="#menu">Nabídka</a></nav>
+
+<section class="stage" id="stage">
+ <div class="sticky">
+  <div class="copy" id="copy"></div>
+  <div class="plate" id="plate">
+   <div class="glow"></div>
+   <svg viewBox="0 0 600 600" id="svg" aria-label="Animovaná pizza"></svg>
+  </div>
+  <div class="dots" id="dots"></div>
+  <div class="counter"><b id="cn">01</b> / <span id="ct"></span></div>
+  <div class="scrollhint" id="hint">Scrolluj<i></i></div>
+ </div>
+</section>
+
+<section class="menu" id="menu">
+ <div class="eyebrow" style="justify-content:center">Neapolská pizza a calzone · 32 cm</div>
+ <h2>Kompletní <span class="gold">nabídka</span></h2>
+ <div class="list" id="list"></div>
+ <p class="note">Ukázkové složení – texty a ceny uprav v poli <code>MENU</code> na začátku skriptu.</p>
+</section>
+
+<footer>
+ <div class="eyebrow" style="justify-content:center">La Dolce Vita</div>
+ <h2>Pizza z pece, <span class="gold">ne z fabriky</span></h2>
+ <a class="btn" href="/">Zpět na web</a>
+</footer>
+
+<script>
+/* ===== DATA – uprav podle skutečného jídelníčku (ceny doplň do pole price) ===== */
+const MENU=[
+ {name:'Margherita',sub:'Klasika z Neapole',desc:'Rajčatový základ San Marzano, fior di latte, čerstvá bazalka, olivový olej.',top:['basil','mozz'],price:''},
+ {name:'Marinara',sub:'Nejstarší z neapolských',desc:'Rajčata, česnek, oregano, extra panenský olivový olej.',top:['garlic','oregano'],price:''},
+ {name:'Diavola',sub:'Pro odvážné',desc:'Rajčata, fior di latte, pikantní salám, chilli, bazalka.',top:['salami','chili','mozz','basil'],price:''},
+ {name:'Prosciutto e Funghi',sub:'Šunka & houby',desc:'Fior di latte, vařená šunka, žampiony, oregano.',top:['ham','mush','mozz'],price:''},
+ {name:'Prosciutto Crudo e Rucola',sub:'Čerstvá a lehká',desc:'Fior di latte, sušená šunka, rukola, hobliny parmazánu, cherry rajčata.',top:['crudo','rocket','tomato','parm','mozz'],price:''},
+ {name:'Quattro Formaggi',sub:'Čtyři sýry',desc:'Fior di latte, gorgonzola, parmazán, pecorino, olivový olej.',top:['gorg','parm','mozz'],price:''},
+ {name:'Calzone',sub:'Přeložená, plněná',desc:'Ricotta, vařená šunka, fior di latte, rajčatová omáčka, pepř.',calzone:true,top:[],price:''}
+];
+
+/* ===== seeded random ===== */
+let seed=7;const rnd=()=>{seed=(seed*16807)%2147483647;return(seed-1)/2147483646};
+const R=(a,b)=>a+rnd()*(b-a);
+const NS='http://www.w3.org/2000/svg';
+const el=(t,a={},p)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);p&&p.appendChild(e);return e};
+
+/* ===== pizza renderer ===== */
+const svg=document.getElementById('svg');
+svg.innerHTML=`<defs>
+<radialGradient id="crust" cx="50%" cy="45%" r="60%"><stop offset="0" stop-color="#e9b768"/><stop offset=".75" stop-color="#d9983f"/><stop offset="1" stop-color="#a8651f"/></radialGradient>
+<radialGradient id="sauce" cx="50%" cy="50%" r="55%"><stop offset="0" stop-color="#d4381f"/><stop offset="1" stop-color="#a81d12"/></radialGradient>
+<radialGradient id="cheese" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#fff6d6"/><stop offset="1" stop-color="#f1d98c"/></radialGradient>
+<radialGradient id="sal" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#c4412e"/><stop offset="1" stop-color="#7b1c14"/></radialGradient>
+<filter id="rough"><feTurbulence baseFrequency=".035" numOctaves="3" seed="3"/><feDisplacementMap in="SourceGraphic" scale="9"/></filter>
+<filter id="blur"><feGaussianBlur stdDeviation="1.4"/></filter>
+</defs><g id="spin"></g>`;
+const spin=document.getElementById('spin');
+
+function leaf(p,x,y,s,r){const g=el('g',{transform:`translate(${x} ${y}) rotate(${r}) scale(${s})`},p);
+ el('path',{d:'M0 -20C16 -14 16 12 0 22C-16 12 -16 -14 0 -20Z',fill:'#2f7a2a',stroke:'#1d5a1c','stroke-width':1.2},g);
+ el('path',{d:'M0 -18V20',stroke:'#7bc263','stroke-width':1.2,fill:'none'},g);return g}
+function addTop(p,type,x,y){
+ const r=R(0,360);
+ switch(type){
+ case 'basil':return leaf(p,x,y,R(.8,1.15),r);
+ case 'mozz':{const g=el('g',{},p);el('ellipse',{cx:x,cy:y,rx:R(26,38),ry:R(22,30),fill:'url(#cheese)',opacity:.97,transform:`rotate(${r} ${x} ${y})`},g);el('ellipse',{cx:x-6,cy:y-6,rx:9,ry:5,fill:'#fff',opacity:.35},g);return g}
+ case 'salami':{const g=el('g',{},p);el('circle',{cx:x,cy:y,r:R(20,24),fill:'url(#sal)'},g);for(let i=0;i<6;i++)el('circle',{cx:x+R(-13,13),cy:y+R(-13,13),r:R(1.5,3),fill:'#f3b49a',opacity:.8},g);el('circle',{cx:x,cy:y,r:22,fill:'none',stroke:'#5a120d','stroke-width':1.5},g);return g}
+ case 'chili':{const g=el('g',{transform:`translate(${x} ${y}) rotate(${r})`},p);el('ellipse',{rx:12,ry:4,fill:'#d11a12'},g);return g}
+ case 'ham':{const g=el('g',{},p);el('path',{d:`M${x-24} ${y}Q${x-14} ${y-26} ${x+10} ${y-20}Q${x+30} ${y-6} ${x+18} ${y+16}Q${x-6} ${y+28} ${x-24} ${y}Z`,fill:'#f0a3a0',stroke:'#d77f7d','stroke-width':1.5,transform:`rotate(${r} ${x} ${y})`},g);return g}
+ case 'crudo':{const g=el('g',{},p);el('path',{d:`M${x-30} ${y}Q${x-12} ${y-30} ${x+14} ${y-14}Q${x+34} ${y+6} ${x+6} ${y+20}Q${x-20} ${y+26} ${x-30} ${y}Z`,fill:'#e07a7e',stroke:'#f6c6c0','stroke-width':3,transform:`rotate(${r} ${x} ${y})`},g);return g}
+ case 'mush':{const g=el('g',{transform:`translate(${x} ${y}) rotate(${r})`},p);el('path',{d:'M-18 -6Q-18 -20 0 -20Q18 -20 18 -6L7 -4V14H-7V-4Z',fill:'#e7d6bd',stroke:'#b79c78','stroke-width':1.5},g);return g}
+ case 'rocket':{const g=el('g',{transform:`translate(${x} ${y}) rotate(${r})`},p);el('path',{d:'M0 20C-4 4 -14 4 -12 -4C-8 -2 -6 -6 -10 -12C-4 -10 -2 -14 0 -22C2 -14 4 -10 10 -12C6 -6 8 -2 12 -4C14 4 4 4 0 20Z',fill:'#3f8f2f'},g);return g}
+ case 'tomato':{const g=el('g',{},p);el('circle',{cx:x,cy:y,r:R(13,16),fill:'#e0301d',stroke:'#a81d12','stroke-width':1.5},g);el('circle',{cx:x-4,cy:y-4,r:4,fill:'#ff8a6f',opacity:.6},g);return g}
+ case 'parm':{const g=el('g',{},p);el('path',{d:`M${x-14} ${y}L${x+4} ${y-14}L${x+18} ${y+4}L${x-2} ${y+14}Z`,fill:'#f7e7a6',stroke:'#e1c971','stroke-width':1.2,transform:`rotate(${r} ${x} ${y})`},g);return g}
+ case 'gorg':{const g=el('g',{},p);el('circle',{cx:x,cy:y,r:R(15,20),fill:'#f3ecd0'},g);for(let i=0;i<5;i++)el('circle',{cx:x+R(-9,9),cy:y+R(-9,9),r:R(1.5,3),fill:'#4d6f8b'},g);return g}
+ case 'garlic':{const g=el('g',{transform:`translate(${x} ${y}) rotate(${r})`},p);el('ellipse',{rx:9,ry:4,fill:'#fff3cf',stroke:'#e2cf8e'},g);return g}
+ case 'oregano':{const g=el('g',{},p);for(let i=0;i<7;i++)el('circle',{cx:x+R(-14,14),cy:y+R(-14,14),r:1.6,fill:'#5d7a2f'},g);return g}
+ }}
+
+function build(item,animate){
+ spin.innerHTML='';seed=11+MENU.indexOf(item)*13;
+ const root=el('g',{},spin);
+ const parts=[];
+ const layer=(g,delay,dir)=>{parts.push({g,delay,dir})};
+ if(item.calzone){
+  // dumpling shape
+  const shape='M70 340C70 190 190 90 300 90C410 90 530 190 530 340C530 460 430 520 300 520C170 520 70 460 70 340Z';
+  const g1=el('g',{},root);
+  el('path',{d:shape,fill:'#00000040',transform:'translate(6 14)',filter:'url(#blur)'},g1);
+  el('path',{d:shape,fill:'url(#crust)',filter:'url(#rough)'},g1);
+  for(let i=0;i<70;i++){const a=R(0,6.28),rr=R(40,230);el('ellipse',{cx:300+Math.cos(a)*rr*1.1,cy:340+Math.sin(a)*rr*.8,rx:R(8,26),ry:R(5,15),fill:'#fbe6b0',opacity:R(.1,.3),transform:`rotate(${R(0,180)} 300 340)`},g1)}
+  for(let i=0;i<26;i++){const a=R(3.4,6.0);el('ellipse',{cx:300+Math.cos(a)*190+R(-6,6),cy:310+Math.sin(a)*190*.9,rx:R(10,22),ry:R(6,12),fill:'#6e3510',opacity:R(.25,.6)},g1)}
+  const crimp=el('g',{},g1);
+  for(let i=0;i<30;i++){const t=i/29;const x=95+t*410,y=360+Math.sin(t*Math.PI)*110;el('path',{d:`M${x-9} ${y-5}l18 10`,stroke:'#8a4f18','stroke-width':3,'stroke-linecap':'round',opacity:.7},crimp)}
+  const hl=el('path',{d:'M130 250C170 160 250 120 330 118',stroke:'#fff3c9','stroke-width':16,fill:'none','stroke-linecap':'round',opacity:.28,filter:'url(#blur)'},g1);
+  // dusting of flour & herbs
+  const gg=el('g',{},g1);for(let i=0;i<30;i++)el('circle',{cx:R(150,450),cy:R(180,440),r:R(1,3),fill:'#fff3d8',opacity:.5},gg);
+  leaf(g1,300,250,1.2,20);leaf(g1,360,300,1,-40);
+  layer(g1,0,'scale');
+ }else{
+  const gc=el('g',{},root);
+  el('circle',{cx:306,cy:312,r:268,fill:'#00000045',filter:'url(#blur)'},gc);
+  el('circle',{cx:300,cy:300,r:270,fill:'url(#crust)',filter:'url(#rough)'},gc);
+  for(let i=0;i<46;i++){const a=R(0,6.28);el('ellipse',{cx:300+Math.cos(a)*252,cy:300+Math.sin(a)*252,rx:R(7,20),ry:R(4,10),fill:i%3?'#5a2a0b':'#8b4a14',opacity:R(.3,.75),transform:`rotate(${a*57.3+90} ${300+Math.cos(a)*252} ${300+Math.sin(a)*252})`},gc)}
+  el('circle',{cx:300,cy:300,r:222,fill:'#8c5018',opacity:.4},gc);
+  layer(gc,0,'scale');
+  const gs=el('g',{},root);
+  el('circle',{cx:300,cy:300,r:216,fill:'url(#sauce)'},gs);
+  for(let i=0;i<26;i++)el('circle',{cx:300+R(-190,190),cy:300+R(-190,190),r:R(8,30),fill:'#ff5a3a',opacity:.12},gs);
+  layer(gs,.15,'scale');
+  // cheese base
+  const gch=el('g',{},root);
+  if(!item.top.includes('garlic')){
+   for(let i=0;i<20;i++){const a=R(0,6.28),rr=Math.sqrt(rnd())*185;el('ellipse',{cx:300+Math.cos(a)*rr,cy:300+Math.sin(a)*rr,rx:R(22,40),ry:R(18,30),fill:'url(#cheese)',opacity:.96,transform:`rotate(${R(0,180)} ${300+Math.cos(a)*rr} ${300+Math.sin(a)*rr})`},gch)}
+   for(let i=0;i<12;i++)el('circle',{cx:300+R(-170,170),cy:300+R(-170,170),r:R(4,9),fill:'#e9a53a',opacity:.45},gch);
+  }
+  layer(gch,.3,'scale');
+  // toppings
+  const base=item.top.filter(t=>t!=='mozz');
+  const counts={basil:7,salami:12,chili:14,ham:8,crudo:7,mush:9,rocket:16,tomato:9,parm:10,gorg:9,garlic:24,oregano:28};
+  let k=0;
+  base.forEach(t=>{const n=counts[t]||8;for(let i=0;i<n;i++){
+    const a=R(0,6.28),rr=Math.sqrt(rnd())*178;
+    const g=el('g',{},root);addTop(g,t,300+Math.cos(a)*rr,300+Math.sin(a)*rr);
+    layer(g,.5+k*.025,'drop');k++}});
+ }
+ // entrance animations
+ if(animate&&!matchMedia('(prefers-reduced-motion:reduce)').matches){
+  parts.forEach(({g,delay,dir})=>{
+   const kf=dir==='scale'?[{opacity:0,transform:'scale(.6) rotate(-25deg)'},{opacity:1,transform:'none'}]
+    :[{opacity:0,transform:`translateY(${R(-220,-120)}px) rotate(${R(-90,90)}deg) scale(1.5)`},{opacity:1,transform:'translateY(0) rotate(0) scale(1)'}];
+   g.style.transformBox='fill-box';g.style.transformOrigin='center';
+   g.animate(kf,{duration:dir==='scale'?900:650,delay:delay*1000,easing:'cubic-bezier(.2,.9,.2,1)',fill:'backwards'});
+  });
+ }
+}
+
+/* ===== slides ===== */
+const copy=document.getElementById('copy'),dots=document.getElementById('dots'),list=document.getElementById('list');
+const slides=[{intro:true},...MENU];
+slides.forEach((m,i)=>{
+ const s=document.createElement('div');s.className='slide';
+ if(m.intro){
+  s.innerHTML=`<div class="eyebrow">Pia · Pizzeria napoletana</div>
+  <h1>Neapolská<br><span class="gold">pizza</span><br>32&nbsp;cm</h1>
+  <p class="lead">Těsto kynuté dlouho a pomalu, pec rozpálená na 450&nbsp;°C a jen pár poctivých surovin. Procházej ukázkovou nabídkou – pizza se pod rukama proměňuje.</p>
+  <div class="tag"><span>Ruční těsto</span><span>Kamenná pec</span><span>Čerstvé suroviny</span></div>`;
+ }else{
+  s.innerHTML=`<div class="eyebrow">${m.sub}</div><h2>${m.name.replace(/(\S+)$/,'<span class="gold">$1</span>')}</h2><p class="lead">${m.desc}</p>${m.price?`<div class="tag"><span>${m.price}</span></div>`:''}`;
+  const r=document.createElement('div');r.className='row';
+  r.innerHTML=`<span class="n">${String(i).padStart(2,'0')}</span><div><h3>${m.name}</h3><p>${m.desc}</p></div><span class="w">${m.price||'32 cm'}</span>`;
+  r.onclick=()=>goTo(i);list.appendChild(r);
+ }
+ copy.appendChild(s);
+ const b=document.createElement('button');b.ariaLabel='Slide '+(i+1);b.onclick=()=>goTo(i);dots.appendChild(b);
+});
+document.getElementById('ct').textContent=String(slides.length).padStart(2,'0');
+const sEls=[...copy.children],dEls=[...dots.children];
+const stage=document.getElementById('stage');
+
+function goTo(i){const h=stage.offsetHeight-innerHeight;window.scrollTo({top:stage.offsetTop+h*(i+.5)/slides.length,behavior:'smooth'})}
+
+/* ===== scroll engine ===== */
+const plate=document.getElementById('plate'),bar=document.getElementById('bar'),hint=document.getElementById('hint'),cn=document.getElementById('cn');
+let cur=-1,target=0,smooth=0,mx=0,my=0,tmx=0,tmy=0;
+function setSlide(i){
+ if(i===cur)return;cur=i;
+ sEls.forEach((e,k)=>e.classList.toggle('on',k===i));
+ dEls.forEach((e,k)=>e.classList.toggle('on',k===i));
+ cn.textContent=String(i+1).padStart(2,'0');
+ build(i===0?MENU[0]:MENU[i-1],true);
+ burst();
+}
+addEventListener('pointermove',e=>{tmx=e.clientX/innerWidth-.5;tmy=e.clientY/innerHeight-.5});
+
+/* ===== particles: steam + embers ===== */
+const cv=document.getElementById('fx'),cx=cv.getContext('2d');let W,H,P=[];
+function size(){const d=Math.min(devicePixelRatio||1,2);W=cv.width=innerWidth*d;H=cv.height=innerHeight*d;cx.setTransform(d,0,0,d,0,0)}
+addEventListener('resize',size);size();
+function spawn(burstMode){
+ const pr=plate.getBoundingClientRect();
+ const x=pr.left+pr.width*R(.25,.75),y=pr.top+pr.height*(burstMode?R(.3,.7):R(.5,.75));
+ P.push({x,y,vx:R(-.3,.3),vy:-R(.4,1.2)*(burstMode?2:1),l:0,max:R(120,240),r:R(14,34),ember:rnd()<.25});
+}
+function burst(){for(let i=0;i<26;i++)spawn(true)}
+function tick(){
+ // smooth scroll progress
+ const h=stage.offsetHeight-innerHeight;
+ const p=Math.min(1,Math.max(0,(scrollY-stage.offsetTop)/h));
+ target=p;smooth+=(target-smooth)*.08;
+ bar.style.transform=`scaleX(${Math.min(1,scrollY/(document.body.scrollHeight-innerHeight))})`;
+ const idx=Math.min(slides.length-1,Math.floor(p*slides.length));
+ setSlide(idx);
+ hint.style.opacity=scrollY>80?0:1;
+ mx+=(tmx-mx)*.06;my+=(tmy-my)*.06;
+ const inStage=scrollY<stage.offsetTop+stage.offsetHeight;
+ const rot=smooth*slides.length*140;
+ spin.style.transform=`rotate(${rot}deg)`;
+ plate.style.transform=`perspective(1200px) rotateX(${-my*12+8}deg) rotateY(${mx*14}deg) translateY(${Math.sin(performance.now()/1400)*6}px) scale(${1+Math.sin(smooth*Math.PI*slides.length)*.015})`;
+ // particles
+ cx.clearRect(0,0,innerWidth,innerHeight);
+ if(inStage&&!document.hidden&&P.length<70&&rnd()<.35)spawn(false);
+ for(let i=P.length-1;i>=0;i--){
+  const q=P[i];q.l++;q.x+=q.vx+Math.sin(q.l/30+i)*.25;q.y+=q.vy;q.r+=q.ember?0:.25;
+  const a=1-q.l/q.max;if(a<=0){P.splice(i,1);continue}
+  if(q.ember){cx.fillStyle=`rgba(255,${150+i%80},60,${a*.9})`;cx.beginPath();cx.arc(q.x,q.y,2,0,6.28);cx.fill()}
+  else{const g=cx.createRadialGradient(q.x,q.y,0,q.x,q.y,q.r);g.addColorStop(0,`rgba(255,240,225,${a*.09})`);g.addColorStop(1,'rgba(255,240,225,0)');cx.fillStyle=g;cx.beginPath();cx.arc(q.x,q.y,q.r,0,6.28);cx.fill()}
+ }
+ requestAnimationFrame(tick);
+}
+/* reveal rows */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.2});
+[...list.children].forEach((r,i)=>{r.style.transitionDelay=(i%3)*.08+'s';io.observe(r)});
+setSlide(0);tick();
+</script>
+</body>
+</html>
